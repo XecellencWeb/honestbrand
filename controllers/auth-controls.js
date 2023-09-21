@@ -14,6 +14,7 @@ const jwtSign = (res,user)=>{
     res.cookie('access_token', token, {
     httpOnly: false, 
     expires: expirationDate,
+    domain: 'honestbrand.netlify.app',
     path: 'https://honestbrand.netlify.app/'
     }).status(200).json(user)
 }
