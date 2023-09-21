@@ -5,18 +5,16 @@ import sender from 'nodemailer'
 import { generateVerifyText } from '../html-makeup/verifymail.js';
 import { generateMessageText } from '../html-makeup/message.js';
 
-
 const jwtSign = (res,user)=>{
     const token = jwt.sign({id: user._id , isAdmin: user.isAdmin}, process.env.token)
     console.log('signed')
 
-    res.setHeader('Set-Cookie', cookie.serialize('access_token', token, {
+    res.cookie('access_token', token, {
     httpOnly: true, // The cookie cannot be accessed through JavaScript
-    maxAge: 3 * 24 * 60 * 60*1000, // Set the cookie's max age to match the token's expiration
+    maxAge: 24 *7 * 60 * 60 * 1000, // Set the cookie's max age in milliseconds
     sameSite: 'strict', // Restrict cookie to same-site requests
-    secure: true, // Send the cookie over HTTPS only (in production)
-    path: '/', // The path where the cookie is valid
-  }));
+    secure: true,
+    } )
 }
 
 export const createUser = async(req,res)=>{
