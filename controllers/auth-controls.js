@@ -10,7 +10,7 @@ const jwtSign = (res,user)=>{
     console.log('signed')
 
     res.cookie('access_token', token, {
-    httpOnly: true, // The cookie cannot be accessed through JavaScript
+    httpOnly: false, // The cookie cannot be accessed through JavaScript
     maxAge: 24 *7 * 60 * 60 * 1000, // Set the cookie's max age in milliseconds
     sameSite: 'strict', // Restrict cookie to same-site requests
     secure: true,
