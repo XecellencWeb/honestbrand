@@ -10,7 +10,7 @@ const jwtSign = (res,user)=>{
     const token = jwt.sign({id: user._id , isAdmin: user.isAdmin}, process.env.token)
     console.log('signed')
     res.cookie('access_token',token,{
-        maxAge: 2.592e+8,
+        maxAge: 3 * 24 * 60 * 60*1000,
         httpOnly: true
     })
 }
