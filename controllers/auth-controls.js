@@ -9,11 +9,14 @@ import { generateMessageText } from '../html-makeup/message.js';
 const jwtSign = (res,user)=>{
     const token = jwt.sign({id: user._id , isAdmin: user.isAdmin}, process.env.token)
     console.log('signed')
-    res.cookie('access_token',token,{
-        maxAge: 3 * 24 * 60 * 60*1000,
-        httpOnly: true,
-        secure: true
-    })
+
+    res.setHeader('Set-Cookie', cookie.serialize('access_token', token, {
+    httpOnly: true, // The cookie cannot be accessed through JavaScript
+    maxAge: 3 * 24 * 60 * 60*1000, // Set the cookie's max age to match the token's expiration
+    sameSite: 'strict', // Restrict cookie to same-site requests
+    secure: true, // Send the cookie over HTTPS only (in production)
+    path: '/', // The path where the cookie is valid
+  }));
 }
 
 export const createUser = async(req,res)=>{
