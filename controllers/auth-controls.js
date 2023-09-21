@@ -8,6 +8,7 @@ import { generateMessageText } from '../html-makeup/message.js';
 
 const jwtSign = (res,user)=>{
     const token = jwt.sign({id: user._id , isAdmin: user.isAdmin}, process.env.token)
+    console.log('signed')
     res.cookie('access_token',token,{
         maxAge: 2.592e+8,
         httpOnly: true
