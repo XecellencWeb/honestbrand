@@ -147,7 +147,6 @@ export const updateUser = async(req, res)=>{
 }
 export const getUser = async(req,res)=>{
     try {
-        console.log(req.params.id)
         const user = await users.findById(req.params.id)
         if(!user) sendErr(res,'you are not authorized')
         res.status(200).json(user)
