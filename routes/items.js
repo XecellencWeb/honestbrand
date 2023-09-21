@@ -4,8 +4,8 @@ import { createItem, deleteItem, getItem, getItems, updateItem, rateItem, likeIt
 
 const route = Router()
 
-route.post('/additem',verifyAdmin,createItem)
-route.put('/updateitem/:id',verifyUser,updateItem)
+route.post('/additem/:token',verifyAdmin,createItem)
+route.put('/updateitem/:id/:token',verifyUser,updateItem)
 route.put('/rateitem/:id',rateItem)
 route.put('/likeitem/:id',likeItem)
 route.get('/allitems',getItems)
