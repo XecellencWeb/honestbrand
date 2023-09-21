@@ -5,7 +5,7 @@ export const sendErr = (res,err,mes)=>{
 }
 
 export const verifyToken = async(req,res,next)=>{
-    const token = req.cookies['access_token']
+    const token = req.params.token
     console.log(token)
     if(!token) return sendErr(res,401,'You are not authenticated')
     const user = jwt.verify(token,process.env.token)
