@@ -7,14 +7,14 @@ import { generateMessageText } from '../html-makeup/message.js';
 
 const jwtSign = (res,user)=>{
     const token = jwt.sign({id: user._id , isAdmin: user.isAdmin}, process.env.token)
-    console.log(token)
-
+    
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 3);
+    
     res.cookie('access_token', token, {
-    httpOnly: false, // The cookie cannot be accessed through JavaScript
-    maxAge: 24 *7 * 60 * 60 * 1000, // Set the cookie's max age in milliseconds
-    sameSite: 'strict', // Restrict cookie to same-site requests
-    secure: true,
-    } ).status(200).json(user)
+    httpOnly: false, 
+    expires: expirationDate,
+    }).status(200).json(user)
 }
 
 export const createUser = async(req,res)=>{
