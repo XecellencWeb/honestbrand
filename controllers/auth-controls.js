@@ -11,12 +11,7 @@ const jwtSign = (res,user)=>{
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 3);
     
-    res.cookie('access_token', token, {
-    httpOnly: false, 
-    expires: expirationDate,
-    domain: 'honestbrand.netlify.app',
-    path: 'https://honestbrand.netlify.app/'
-    }).status(200).json(user)
+    res.status(200).json({...user,cookie:token})
 }
 
 export const createUser = async(req,res)=>{
