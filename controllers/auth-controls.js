@@ -7,14 +7,14 @@ import { generateMessageText } from '../html-makeup/message.js';
 
 const jwtSign = (res,user)=>{
     const token = jwt.sign({id: user._id , isAdmin: user.isAdmin}, process.env.token)
-    console.log('signed')
+    console.log(token)
 
     res.cookie('access_token', token, {
     httpOnly: false, // The cookie cannot be accessed through JavaScript
     maxAge: 24 *7 * 60 * 60 * 1000, // Set the cookie's max age in milliseconds
     sameSite: 'strict', // Restrict cookie to same-site requests
     secure: true,
-    } )
+    } ).status(200).json(user)
 }
 
 export const createUser = async(req,res)=>{
@@ -32,7 +32,7 @@ export const emailSignIn = async(req,res)=>{
         const exist = await users.findOne({email:email})
         if(exist) {
             jwtSign(res,exist)
-            return res.status(200).json(exist)
+            return
         }
 
         const user = await users.create({
@@ -43,7 +43,6 @@ export const emailSignIn = async(req,res)=>{
             password:name
         })
         jwtSign(res,user)
-        res.status(200).json(user)
     } catch (err) {
         sendErr(res,err.status,err.message)
     }
@@ -124,12 +123,7 @@ export const logUser = async(req,res)=>{
         if(!user) return res.status(404).json('User Does not Exist')
         if(user.password !== req.body.password) return res.status(401).json('Please enter the right Password')
         if(!user.verified) return res.status(401).json('Your Acount has not been verified')
-        const token = jwt.sign({id: user._id , isAdmin: user.isAdmin}, process.env.token)
-        res.cookie('access_token',token,{
-            maxAge: 2.592e+8,
-            httpOnly: true
-        })
-        res.status(200).json(user)
+        jwtSign(res,user)
     } catch (err) {
         sendErr(res,err.status,err.message)
     }
