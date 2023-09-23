@@ -11,6 +11,6 @@ route.put('/likeitem/:id',likeItem)
 route.get('/allitems',getItems)
 route.get('/item/:id',getItem)
 route.get('/search/:string/:min/:max',searchItems)
-route.delete('/deleteitem/:id',deleteItem)
+route.delete('/deleteitem/:id/:token',verifyAdmin,deleteItem)
 
 export default route
